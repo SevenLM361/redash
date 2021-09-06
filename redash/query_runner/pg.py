@@ -260,9 +260,7 @@ class PostgreSQL(BaseSQLQueryRunner):
 
         try:
             cursor.execute(query)
-            log_detail = "{\"type\":\"CustomerLog\","+query.replace('Username','\"user_name\"').replace('query_id','\"query_id\"').replace('Queue','\"query\"').replace('Job ID','\"job_id\"').replace('Query Hash','\"query_hash\"').replace('Scheduled','\"scheduled\"').replace('/* ', '').replace(':',':\"').replace(',','\",').replace('*/', '\",\"sql\":\"').replace("\" ", "\"")
-            log_array = log_detail.split('sql')
-            logger.info(log_array[0] + "sql" + log_array[1].replace("\",", ",")+"\"}")
+            logger.info("======CustomerLog======" + query)
             _wait(connection)
 
             if cursor.description is not None:
