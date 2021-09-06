@@ -12,6 +12,8 @@ from psycopg2.extras import Range
 from redash.query_runner import *
 from redash.utils import JSONEncoder, json_dumps, json_loads
 
+import json
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -258,7 +260,9 @@ class PostgreSQL(BaseSQLQueryRunner):
 
         try:
             cursor.execute(query)
-            logger.info("======query sql:======" + query)
+            log_detail = "{"+query.replace('Username','\"user_name\"').replace('query_id','\"query_id\"').replace('Queue','\"query\"').replace('Job ID','\"job_id\"').replace('Query Hash','\"query_hash\"').replace('Scheduled','\"scheduled\"').replace('/* ', '').replace(':',':\"').replace(',','\",').replace('*/', '\",\"sql\":\"').replace("\" ", "\"")
+            log_array = log_detail.split('sql')
+            logger.info("======CustomerLog======" + log_array[0] + "sql" + log_array[1].replace("\",", ",")+"\"}")
             _wait(connection)
 
             if cursor.description is not None:
